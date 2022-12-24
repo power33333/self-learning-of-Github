@@ -1,1 +1,65 @@
+clear;
+
+% CREATE PROBLEM -:
+% Here we are calling the problem chemprob.
+
+chemporb = optimproblem;
+
+
+% Now we will be creating the variables will be introducing all the constraints.
+% here we are only describing the inequality constraints.
+% CREATING THE VARIABLES 
+
+LE1 = optimvar('LE1','LowerBound',0);
+LE2 = optimvar('LE2', 'LowerBound',0,'UpperBound',142000);
+LPS = optimvar('LPS', 'LowerBound',100623);
+P1 = optimvar("P1",'LowerBound',2500,'UpperBound',9000);
+P2 = optimvar('P2', 'LowerBound',3000,'UpperBound',9000);
+I1 = optimvar('I1', 'Lowerbound',0,'UpperBound',244000);
+I2 = optimvar('I2', 'LowerBound',0,'UpperBound',144000);
+C = optimvar('C', 'LowerBound',0,'UpperBound',62000);
+HE1 = optimvar('HE1','LowerBound',0);
+HE2 = optimvar('HE2', 'LowerBound',0);
+HPS = optimvar('HPS','LowerBound',0);
+MPS = optimvar('MPS', 'LowerBound',271536);
+BF1 = optimvar('BF1', 'LowerBound',0);
+BF2 = optimvar('BF2', 'LowerBound',0);
+EP = optimvar('EP', 'LowerBound',0);
+PP = optimvar('PP','LowerBound',0);
+
+
+
+
+% Creating the objection function.
+
+chemprob.Objective = (0.002614*HPS + 0.0239*PP + 0.009825*EP);
+
+
+
+
+% Defining the inequality constraints. There are three inequality constrain
+
+chemprob.Constraints.cons1 = I1 - HE1 <= 132000;
+chemprob.Constraints.cons2 = EP + PP >= 120000;
+chemprob.Constraints.cons3 = P1 + P2 + PP >= 24550;
+
+
+
+% Defining the equality constraints 
+
+chemprob.Constraints.econs1 = I1 == LE1 + HE1 + C;
+chemprob.Constraints.econs2 = I2 == LE2 + HE2;
+chemprob.Constraints.econs3 = HPS == I1 + I2 + BF1;
+chemprob.Constraints.econs4 = LPS == LE1 + LE2 + BF2;
+chemprob.Constraints.econs5 = MPS == HE1 + HE2 + BF1 - BF2;
+chemprob.Constraints.econs6 = HPS == C + MPS + LPS;
+chemprob.Constraints.econs7 = 1359.8 * I1 == 1267.8*HE1 + 1251.4 * LE1 + 192*C + 3413 * P1;
+chemprob.Constraints.econs8 = 1359.8 * I2 == 1267.8 * HE2 + 1251.4* LE2 +  3413 * P2;
+
+
+
+chemprob = optimproblem;
+
+show(chemporb)
+
 
